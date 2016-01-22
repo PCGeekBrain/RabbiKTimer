@@ -1,0 +1,182 @@
+/* General Theme */
+body, h1, p{
+	margin: 0;
+	padding: 0;
+	font-family: Candara, sans-serif;
+}
+.wrapper, input[type="number"]{
+	background: #FAFAFA;
+	border-radius: 10px;
+}
+.clearfix{
+	clear: both;
+}
+/* The body */
+.wrapper{
+	width: 800px;
+	margin: 10px auto;
+	padding: 10px;
+	box-shadow: 5px 5px 20px rgba(0,0,0,0.15);
+	padding-bottom: 50px;
+}
+/* The header */
+header{
+	padding: 15px;
+	text-align: center;
+	font-family: Century Gothic, sans-serif;
+	margin-bottom: 35px;
+	border-bottom: 5px double rgba(0,0,0,0.18);
+}
+/* The timer */
+#timerBox{
+	margin-top: 80px;
+	float: right;
+	padding: 10px;
+	margin-right: 50px;
+	font-size: 150px;
+	overflow: hidden;
+}
+input[type="number"]{
+	height: 175px;
+	width: 175px;
+	padding: 5px;
+	font-size: 125px;
+	border: none;
+	text-align: center;
+	-moz-appearance: textfield;
+}
+header h1{
+	text-transform: capitalize;
+}
+#AdvancedOptions{
+	margin-top: 50px;
+	padding: 10px;
+	display: block;
+	height: 50px;
+	width: 235px;
+	margin: 0 auto;
+	margin-top: 40px;
+}
+#AdvancedOptions p{
+	display: inline-block;
+	vertical-align: top; /*Fixes the wird issue of everything falling to the bottom.*/
+	clear: both;
+}
+/* Switch */
+.slideOne {
+	display: inline-block;
+	/* Line */
+	width: 50px;
+	height: 10px;
+	background: #333;
+	margin: 20px 20px;
+	position: relative;
+	border-radius: 50px;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideOne label {
+	/* Button */
+	display: block;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: -7px;
+	left: -7px;
+	cursor: pointer;
+	background: #E5E8DC;
+	background: -webkit-linear-gradient(top, #E5E8DC 0%, #D5D6D0 40%, #b3bead 100%);
+	background: linear-gradient(to bottom, #E5E8DC 0%, #D5D6D0 40%, #b3bead 100%);
+	border-radius: 50%;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+	-webkit-transition: all 0.4s ease;
+	      transition: all 0.4s ease;
+}
+.slideOne input[type=checkbox] {
+	visibility: hidden;
+}
+.slideOne input[type=checkbox]:checked + label {
+	left: 37px;
+}
+
+/* The traffic light*/
+#buttons{
+	width: 160px;
+	padding: 10px;
+	margin-left: 10px;
+	background: #D6D6D6;
+	border: 1px solid #CCCCCC;
+	border-radius: 10px;
+	box-shadow: 2px 2px 12px rgba(114, 114, 114, 0.3);
+}
+/* The individual buttons */
+.button{
+	display: table;
+	width: 120px;
+	height: 120px;
+	border: 3px solid #C7C7C7;
+	border-radius: 50%;
+	margin: 15px;
+	box-shadow: inset 5px 3px 5px rgba(0,0,0,0.1);
+	text-transform: uppercase;
+}
+.button:hover{
+	cursor: pointer;
+	border: 3px olid #E0D7D7;
+	box-shadow: inset 8px 5px 15px rgba(0,0,0,0.21);
+	text-decoration: underline;
+}
+/* The tex within them */
+p{
+	padding: 5px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 30px;
+}
+/* Button colors */
+#start{
+	background: #A6F5BE;
+}
+#slow{
+	background: #EDFAAA;
+}
+#stop{
+	background: #FF9E9E;
+}
+
+#Log{
+	text-align: center;
+}
+#Log p{
+	display: inline-block;
+	margin: 0 auto;
+	text-decoration: none;
+	color: #000;
+	font-size: 25px;
+	margin-top: 30px;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 3px 4px 5px rgba(0,0,0,.2);
+	border: 1px solid #ddd;
+}
+#Log p:hover{
+	cursor: pointer;
+	text-decoration: underline;
+	box-shadow: 1px 2px 4px rgba(0,0,0,.25);
+}
+
+table{
+	margin: 0 auto;
+	margin-top: 15px;
+	font-size: 20px;
+}
+td{
+	border: 1px solid #bbb;
+	padding: 5px;
+	margin: 0;
+}
+
+footer{
+	text-align: center;
+	font-size: .5em;
+}

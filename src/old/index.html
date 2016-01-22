@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Rabbi Kahanov's Timer</title>
+        <link rel="stylesheet" href="css/template.css"/>
+    </head>
+    
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>Rabbi Kahanov's classroom timer</h1>
+            </header>
+            <section id="timerBox">
+                <input id="minutes" type ="number" min="0" max="59" value="15"> :
+                <input id="seconds" type ="number" min="0" max="59" value="00">
+                <section id="AdvancedOptions">
+                    <p>Count Up:</p><div class="slideOne">
+                      <input type="checkbox" value="None" id="slideOne" name="check" />
+                      <label for="slideOne"></label>
+                    </div>
+                </section>
+            <div class="clearfix"></div>
+            </section>
+            <section id="buttons">
+                <span class="button" id="start" onclick="startTimer()">
+                    <p>go</p>
+                </span>
+                <span class="button" id="slow" onclick="slowTimer()">
+                    <p>slow</p>
+                </span>
+                <span class="button" id="stop" onclick="stopTimer()">
+                    <p>stop</p>
+                </span>
+            </section>
+            <section id="Log">
+                <p onclick="showTable()">Show log</p>
+                <table id="logTable"></table>
+            </section>
+        </div> <!-- End of wrapper -->
+        <div class="clearfix"></div>
+        <footer>
+            Version 1.1.4<br>
+            PCGeekBrain
+        </footer>
+    </body>
+
+    <script src="js/log.js"></script>
+    <script src="js/timer.js"></script>
+</html>

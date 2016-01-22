@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Rabbi Kahanov's Timer</title>
+        <link rel="stylesheet" href="css/template.css"/>
+    </head>
+    
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>Rabbi Kahanov's classroom timer</h1>
+            </header>
+            <section id="timerBox">
+                <input id="minutes" type ="number" min="0" max="59" value="15">:
+                <input id="seconds" type ="number" min="0" max="59" value="00">
+            <div class="clearfix"></div>
+            </section>
+            <section id="buttons">
+                <span class="button" id="start" onclick="newTimer.start()">
+                    <p>go</p>
+                </span>
+                <span class="button" id="slow" onclick="newTimer.reset()">
+                    <p id='slowtext'>reset</p>
+                </span>
+                <span class="button" id="stop" onclick="newTimer.stop()">
+                    <p>stop</p>
+                </span>
+            </section>
+            <section id="bottom">
+                
+                <section id="AdvancedOptions">
+                    <p>Count Up:</p><div class="slideOne">
+                      <input type="checkbox" value="None" id="slideOne" name="check" />
+                      <label for="slideOne"></label>
+                    </div>
+                </section>
+
+                <p id='logHeader' onclick="newLog.loadTable()">Show log</p>
+                <a id="logDownload" onclick="newLog.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
+                <section id="Log">
+                    <div id="tableDiv">
+                        <p id="Date">Log starts from: DD/MM/YYYY</p>
+                        <table id="logTable"><tbody></tbody></table>
+                    </div>
+                </section>
+            </section>
+            
+        </div> <!-- End of wrapper -->
+        <div class="clearfix"></div>
+        <footer>
+            Version 1.3.8<br>
+            PCGeekBrain
+        </footer>
+    </body>
+
+    <script src="js/newlog.js"></script>
+    <script src="js/newtimer.js"></script>
+</html>
