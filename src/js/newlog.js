@@ -56,7 +56,7 @@ var newLog = function(){
 	},
 	showtable = function(){
 		var result = "";
-		tableSize = 34;
+		tableSize = 47;
 		for(var row = 0; row < myTable.length; row += 1){
 			result += "<tr>";
 			if(myTable[row] === undefined || myTable[row] === null){
@@ -73,8 +73,8 @@ var newLog = function(){
 				}
 				result += "<td>" + myTable[row][column] + "</td>";
 			}
-			if(tableSize < 390){
-				tableSize += 39 //add the height to the total to display (more then 10 rows is overflow)
+			if(tableSize < 155){
+				tableSize += 31 //add the height to the total to display (more then 3 rows is overflow)
 			}
 			result += "</tr>";
 		}

@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Rabbi Kahanov's Timer</title>
         <link rel="stylesheet" href="css/template.css"/>
+        <link rel="stylesheet" href="css/home.css">
     </head>
     
     <body>
@@ -11,11 +12,6 @@
             <header>
                 <h1>Rabbi Kahanov's classroom timer</h1>
             </header>
-            <section id="timerBox">
-                <input id="minutes" type ="number" min="0" max="59" value="15">:
-                <input id="seconds" type ="number" min="0" max="59" value="00">
-            <div class="clearfix"></div>
-            </section>
             <section id="buttons">
                 <span class="button" id="start" onclick="newTimer.start()">
                     <p>go</p>
@@ -26,24 +22,30 @@
                 <span class="button" id="stop" onclick="newTimer.stop()">
                     <p>stop</p>
                 </span>
+                <div class="clearfix"></div>
             </section>
-            <section id="bottom">
-                
+            <section id="right">
                 <section id="AdvancedOptions">
                     <p>Count Up:</p><div class="slideOne">
                       <input type="checkbox" value="None" id="slideOne" name="check" />
                       <label for="slideOne"></label>
                     </div>
                 </section>
-
+                <a id="settings" href="settings.html">Settings</a>
                 <p id='logHeader' onclick="newLog.loadTable()">Show log</p>
-                <a id="logDownload" onclick="newLog.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
                 <section id="Log">
                     <div id="tableDiv">
                         <p id="Date">Log starts from: DD/MM/YYYY</p>
                         <table id="logTable"><tbody></tbody></table>
                     </div>
                 </section>
+                <a id="logDownload" onclick="newLog.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
+                <div class="clearfix"></div>
+            </section>
+            <section id="timerBox">
+                <input id="minutes" type ="number" min="0" max="59" value="15">:
+                <input id="seconds" type ="number" min="0" max="59" value="00">
+                <div class="clearfix"></div>
             </section>
             
         </div> <!-- End of wrapper -->

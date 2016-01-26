@@ -1,0 +1,195 @@
+
+/************************************************Left - Controls**********************************/
+#buttons{
+	width: 160px;
+	padding: 10px;
+	margin-left: 10px;
+	background: #D6D6D6;
+	border: 1px solid #CCCCCC;
+	border-radius: 10px;
+	box-shadow: 2px 2px 12px rgba(114, 114, 114, 0.3);
+	float: left;
+}
+.button{
+	display: table;
+	width: 120px;
+	height: 120px;
+	border: 3px solid #C7C7C7;
+	border-radius: 50%;
+	margin: 15px;
+	box-shadow: inset 5px 3px 5px rgba(0,0,0,0.1);
+	text-transform: uppercase;
+	font-size: 30px;
+}
+.button:hover{
+	cursor: pointer;
+	box-shadow: inset 8px 5px 15px rgba(0,0,0,0.21);
+	font-size: 33px;
+}
+.button p{
+	padding: 5px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+#start{
+	background: #A6F5BE;
+}
+#slow{
+	background: #EDFAAA;
+}
+#stop{
+	background: #FF9E9E;
+}
+
+/*************************************Middle***************************************/
+#timerBox{
+	width: 465px;
+	margin: 0 auto;
+	margin-top: 80px;
+	padding: 10px;
+	font-size: 150px;
+	overflow: hidden;
+}
+#timerBox input[type="number"]{
+	height: 175px;
+	width: 175px;
+	padding: 5px;
+	font-size: 125px;
+	border: none;
+	text-align: center;
+	-moz-appearance: textfield;
+}
+#timerBox input[type="number"]:hover{
+	font-size: 130px;
+}
+
+/********************************************************Right**********************************8*/
+#right{
+	position: relative;
+	float: right;
+	width: 230px;
+	height: 440px;
+	padding: 10px;
+	margin-right: 10px;
+	text-align: center;
+
+	background: #F9F9F9;
+	border-radius: 10px;
+	box-shadow: 2px 2px 12px rgba(114, 114, 114, 0.3);
+}
+
+/*Slider*/
+#AdvancedOptions{
+	padding: 10px;
+	display: inline-block;
+	height: 50px;
+	width: 200px;
+	margin: 0 auto;
+	margin-top: 15px;
+	font-size: 25px;
+}
+#AdvancedOptions p{
+	margin-top: 10px;
+	vertical-align: top;
+	display: inline-block;
+	clear: both;
+}
+/* Switch */
+.slideOne {
+	display: inline-block;
+	/* Line */
+	width: 40px;
+	height: 10px;
+	background: #333;
+	margin: 20px 15px;
+	position: relative;
+	border-radius: 50px;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideOne label {
+	/* Button */
+	display: block;
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	top: -6px;
+	left: -5px;
+	cursor: pointer;
+	background: #E5E8DC;
+	background: -webkit-linear-gradient(top, #E5E8DC 0%, #D5D6D0 40%, #b3bead 100%);
+	background: linear-gradient(to bottom, #E5E8DC 0%, #D5D6D0 40%, #b3bead 100%);
+	border-radius: 50%;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.slideOne input[type=checkbox] {
+	visibility: hidden;
+}
+.slideOne input[type=checkbox]:checked + label {
+	left: 25px;
+}
+/*slider*/
+#logHeader, #logDownload, #settings{
+	height: 30px;
+	width: 200px;
+	display: block;
+	margin: 10px auto;
+	text-decoration: none;
+	color: #000;
+	font-size: 25px;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 3px 5px 8px rgba(0,0,0,.3);
+	border: 1px solid #ddd;
+}
+#logHeader:hover, #logDownload:hover, #settings:hover{
+	cursor: pointer;
+	font-size: 24px;
+	box-shadow: 1px 2px 4px rgba(0,0,0,.4);
+}
+
+/***************LOG****************/
+#Log{
+	margin-top: 10px;
+	text-align: center;
+	overflow: hidden;
+}
+#tableDiv{
+	overflow: auto;
+	max-height: 0px;
+	-webkit-transition: max-height .35s ease;
+	transition: max-height .35s ease;
+}
+#Date{
+	font-size: 15px;
+	display: inline-block;
+	margin: 0 auto;
+	padding: 2px;
+}
+table{
+	display: block;
+	margin: 0 auto;
+	font-size: 15px;
+}
+tbody{
+	margin: 0 auto;
+	display: inline-block;
+}
+td{
+	border: 1px solid #bbb;
+	padding: 5px;
+	margin: 0;
+}
+
+/*Animation!!!*/
+.button, input[type="number"], #logHeader, #logDownload, #settings{
+	-webkit-transition: all .1s ease;
+	transition: all .1s ease;
+}
+
+footer{
+	text-align: center;
+	font-size: .5em;
+}
