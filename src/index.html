@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/template.css"/>
         <link rel="stylesheet" href="css/home.css">
     </head>
-    
+
     <body>
         <div class="wrapper">
             <header>
@@ -31,7 +31,7 @@
                       <label for="slideOne"></label>
                     </div>
                 </section>
-                <a id="settings" href="settings.html">Settings</a>
+                <!--<a id="settings" href="settings.html">Settings</a> -->
                 <p id='logHeader' onclick="newLog.loadTable()">Show log</p>
                 <section id="Log">
                     <div id="tableDiv">
@@ -40,14 +40,36 @@
                     </div>
                 </section>
                 <a id="logDownload" onclick="newLog.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
+                <p>Class: </p>
+                <a href="TODO add class function">Add Class</a>
                 <div class="clearfix"></div>
             </section>
             <section id="timerBox">
-                <input id="minutes" type ="number" min="0" max="59" value="15">:
-                <input id="seconds" type ="number" min="0" max="59" value="00">
+                <div id="masterTimer">
+                    <input id="minutes" type ="number" min="0" max="59" value="15">:
+                    <input id="seconds" type ="number" min="0" max="59" value="00">
+                </div>
+                <div id="studentTimers">
+                    <!--Student timers inserted here in js-->
+                    <ul>
+                        <li>
+                            <p>Student 1:</p>
+                            <input id="studentMinutes" type ="number" min="0" max="59" value="15">:
+                            <input id="studnetSeconds" type ="number" min="0" max="59" value="00">
+                            <input type="button" value="Stop"></input>
+                        </li>
+                        <li>
+                            <p>menachem m zalmanov</p>
+                            <input id="studentMinutes" type ="number" min="0" max="59" value="15">:
+                            <input id="studnetSeconds" type ="number" min="0" max="59" value="00">
+                            <input type="button" value="Stop" onclick="newTimer.freeze(2)"></input>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="clearfix"></div>
             </section>
-            
+
         </div> <!-- End of wrapper -->
         <div class="clearfix"></div>
         <footer>
@@ -58,4 +80,5 @@
 
     <script src="js/newlog.js"></script>
     <script src="js/newtimer.js"></script>
+    <script src="js/timer.js"></script>
 </html>

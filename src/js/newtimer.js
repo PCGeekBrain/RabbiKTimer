@@ -16,7 +16,7 @@ var newTimer = function() {
 
 	//private functions
 
-	//takes a number and maes it at laest 2 digits and a string
+	//takes a number and makes it at laest 2 digits and a string
 	var cleanUpNumber = function(number){
 		if(typeof number === "number" || typeof number === "string"){
 			if(typeof number === "number"){number = number.toString();}

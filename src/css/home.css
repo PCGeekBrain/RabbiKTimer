@@ -48,10 +48,12 @@
 	margin: 0 auto;
 	margin-top: 80px;
 	padding: 10px;
-	font-size: 150px;
 	overflow: hidden;
 }
-#timerBox input[type="number"]{
+#masterTimer {
+	font-size: 150px;
+}
+#masterTimer input[type="number"]{
 	height: 175px;
 	width: 175px;
 	padding: 5px;
@@ -60,8 +62,62 @@
 	text-align: center;
 	-moz-appearance: textfield;
 }
-#timerBox input[type="number"]:hover{
+#masterTimer input[type="number"]:hover{
 	font-size: 130px;
+}
+
+#studentTimers{
+	font-size: 25px;
+	margin: 0 auto;
+}
+
+#studentTimers ul{
+	list-style: none;
+	padding: 0;
+}
+
+#studentTimers ul li{
+	text-align: center;
+	width: 345px;
+	padding: 8px;
+	padding-right: 10px;
+	margin: 8px auto;
+	border: solid 1px rgba(0,0,0,.1);
+	border-radius: 3px;
+	box-shadow: 4px 3px 9px rgba(0,0,0,.15);
+}
+
+#studentTimers ul li p{
+	margin: 0;
+	margin-bottom: 3px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-bottom: dashed 1px rgba(0,0,0,.4);
+	text-transform: capitalize;
+}
+
+#studentTimers input[type="number"]{
+	height: 30px;
+	width: 45px;
+	padding: 5px;
+	font-size: 25px;
+	border: none;
+	text-align: center;
+	-moz-appearance: textfield;
+}
+
+#studentTimers input[type="button"]{
+	background: #FF9E9E;
+	border: none;
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	border: 1px solid #C7C7C7;
+	box-shadow: inset 5px 3px 5px rgba(0,0,0,0.1);
+}
+#studentTimers input[type="button"]:hover{
+	box-shadow: inset 5px 3px 5px rgba(0,0,0,0.25);
 }
 
 /********************************************************Right**********************************8*/
