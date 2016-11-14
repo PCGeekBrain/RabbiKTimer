@@ -6,7 +6,7 @@ var newTimer = function() {
 		seconds = document.getElementById("seconds"),
 		slow = document.getElementById("slow"),
 		slowtext = document.getElementById("slowtext"),
-		timerInterval, 
+		timerInterval,
 		minutesLeft = "00",
 		secondsLeft = "00",
 		slowed = false,
@@ -22,8 +22,6 @@ var newTimer = function() {
 			if(typeof number === "number"){number = number.toString();}
 			if(number.length < 2){
 				number = "0" + number;
-			} else{
-				number = number.toString();
 			}
 		}
 		else{
