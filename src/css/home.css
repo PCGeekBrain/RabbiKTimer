@@ -62,9 +62,6 @@
 	text-align: center;
 	-moz-appearance: textfield;
 }
-#masterTimer input[type="number"]:hover{
-	font-size: 130px;
-}
 
 #studentTimers{
 	font-size: 25px;
