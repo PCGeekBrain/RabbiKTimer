@@ -1,9 +1,10 @@
 /*
 the basic timer objects.
 */
-
-var simpleTimer = function(name, pointer){
-    return function (){ //Allows simpleTimer("name") to still work with private Variables
+//simple timer object: constructer below.
+var simpleTimer = function(name, pointer, textPointer){//added textPointer
+    //when constructon (above) is called the code below executes and returns an object;
+    return function (){
         var id = name,  //The id for the timer
         timerInterval,  //Variable to store the actual countdown interval object
         running = false,
@@ -16,7 +17,6 @@ var simpleTimer = function(name, pointer){
             masterMinutes = document.getElementById("minutes"),
             masterSeconds = document.getElementById("seconds");
         }
-
         //private functions
         var updateTimer = function(){
             if (running) {
@@ -41,7 +41,6 @@ var simpleTimer = function(name, pointer){
                 totalSeconds += 1;
             }
         };
-
         var updateDisplay = function(){
             if (id === "master") {
                 masterMinutes.value = cleanUpNumber(minutesLeft);
@@ -49,7 +48,7 @@ var simpleTimer = function(name, pointer){
             } else {
                 pointer.innerHTML = cleanUpNumber(minutesLeft) + ":" + cleanUpNumber(secondsLeft);
             }
-        }
+        };
 
         return {
             start: function(){
@@ -60,7 +59,6 @@ var simpleTimer = function(name, pointer){
             },
             stop: function(){//stop the running
                 if (running) {
-                    console.log("Timer {0}: Stopped", [id]);
                     running = false;
                 }
             },
@@ -77,7 +75,7 @@ var simpleTimer = function(name, pointer){
                 secondsLeft = seconds;
                 updateDisplay();
             },
-            getTotal: function(){
+            getTotalSeconds: function(){
                 return totalSeconds;
             },
             getId: function(){
@@ -102,7 +100,7 @@ var timerManager = function(){
         for (var i = 0; i < timerList.length; i++) {
             timerList[i].update();
             if (timerList[i].getId() === "master" && timerList[i].isRunning() === false) {
-                stop();
+                stop(1);
             }
         }
     },
@@ -120,13 +118,20 @@ var timerManager = function(){
             console.log("Slowed");
         }
     },
-    stop = function(){
+    stop = function(mode){
         if (running) {
-            running = false;
+            running = false;    //duh
+            clearInterval(timerInterval);   //clear that constant running thing.
             for (var i = 0; i < timerList.length; i++) {
-                timerList[i].stop();
+                timerList[i].stop();    //stop every timer becuase, y not.
             }
-            clearInterval(timerInterval);
+            //make noise!!!!
+            if (mode === 1) {
+                var audio = new Audio('audio/Noises2.mp3');
+            } else {
+                var audio = new Audio('audio/Tone.mp3');
+            }
+            audio.play();
             //enable reset
             slowbox.onclick = reset;
             slowtext.innerHTML = "Reset";
@@ -149,12 +154,13 @@ var timerManager = function(){
         }
     },
     reset = function(){
-        console.log("Reset Hit");
         set([16, 00]);
     },
     set = function(time){
-        for (var i = 0; i < timerList.length; i++) {
-            timerList[i].setTime(time[0], time[1])
+        if (running === false) {
+            for (var i = 0; i < timerList.length; i++) {
+                timerList[i].setTime(time[0], time[1])
+            }
         }
     }
 
@@ -185,7 +191,7 @@ var timerManager = function(){
                 timerList[i].setCountUp(value);
             }
         },
-        swapID: function(id){ //stop a specific ID
+        swapID: function(id){ //start/stop a sub timer.
             for (var i = 0; i < timerList.length; i++) {
                 if (timerList[i].getId() === id) {
                     if (timerList[i].isRunning()) {

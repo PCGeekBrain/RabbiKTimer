@@ -134,11 +134,10 @@ var newTimer = function() {
 		clearInterval(timerInterval);
 		if(type === "timerEnd"){
 			var audio = new Audio('audio/Noises2.mp3');
-			audio.play();
 		}else{
 			var audio = new Audio('audio/Tone.mp3');
-			audio.play();
 		}
+        audio.play();
 		console.log("End Type: " + type);
 	};
 
@@ -167,6 +166,7 @@ var newTimer = function() {
 	};
 }();
 
-window.onbeforeunload = function(){
+// TODO: Make new log.
+/*window.onbeforeunload = function(){
    newLog.logTotalTime(newTimer.getTotal());
-}
+}*/
