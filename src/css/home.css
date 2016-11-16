@@ -184,7 +184,7 @@
 	left: 25px;
 }
 /*slider*/
-#logHeader, #logDownload, #settings{
+.sideButton{
 	height: 30px;
 	width: 200px;
 	display: block;
@@ -197,52 +197,14 @@
 	box-shadow: 3px 5px 8px rgba(0,0,0,.3);
 	border: 1px solid #ddd;
 }
-#logHeader:hover, #logDownload:hover, #settings:hover{
+.sideButton:hover{
 	cursor: pointer;
 	font-size: 24px;
 	box-shadow: 1px 2px 4px rgba(0,0,0,.4);
 }
 
-/***************LOG****************/
-#Log{
-	margin-top: 10px;
+footer, footer a{
 	text-align: center;
-	overflow: hidden;
-}
-#tableDiv{
-	overflow: auto;
-	max-height: 0px;
-	-webkit-transition: max-height .35s ease;
-	transition: max-height .35s ease;
-}
-#Date{
-	font-size: 15px;
-	display: inline-block;
-	margin: 0 auto;
-	padding: 2px;
-}
-table{
-	display: block;
-	margin: 0 auto;
-	font-size: 15px;
-}
-tbody{
-	margin: 0 auto;
-	display: inline-block;
-}
-td{
-	border: 1px solid #bbb;
-	padding: 5px;
-	margin: 0;
-}
-
-/*Animation!!!*/
-.button, input[type="number"], #logHeader, #logDownload, #settings{
-	-webkit-transition: all .1s ease;
-	transition: all .1s ease;
-}
-
-footer{
-	text-align: center;
-	font-size: .5em;
+    text-decoration: none;
+    color: #000;
 }

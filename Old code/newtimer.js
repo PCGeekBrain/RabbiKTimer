@@ -165,8 +165,3 @@ var newTimer = function() {
 		}
 	};
 }();
-
-// TODO: Make new log.
-/*window.onbeforeunload = function(){
-   newLog.logTotalTime(newTimer.getTotal());
-}*/

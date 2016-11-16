@@ -6,13 +6,12 @@ var simpleTimer = function(name, pointer, textPointer){//added textPointer
     //when constructon (above) is called the code below executes and returns an object;
     return function (){
         var id = name,  //The id for the timer
-        timerInterval,  //Variable to store the actual countdown interval object
-        running = false,
-        countup = false,
-        minutesLeft = 16,
-        secondsLeft = 00,
-        totalSeconds = 0;
-        //code
+            timerInterval,  //Variable to store the actual countdown interval object
+            running = false,
+            countup = false,
+            minutesLeft = 16,
+            secondsLeft = 00,
+            totalSeconds = 0;
         if (id === "master") {
             masterMinutes = document.getElementById("minutes"),
             masterSeconds = document.getElementById("seconds");
@@ -51,36 +50,19 @@ var simpleTimer = function(name, pointer, textPointer){//added textPointer
         };
 
         return {
-            start: function(){
-                if (!running) {
-                    console.log("Timer {0}: started", [id]);
-                    running = true;
-                }
-            },
-            stop: function(){//stop the running
-                if (running) {
-                    running = false;
-                }
-            },
-            update: function(){//called every update
-                updateTimer();
-            },
+            start: function(){running = true;},
+            stop: function(){running = false;},
+            update: function(){updateTimer();},
             setCountUp: function(value){//counting up or down
-                if (value === true || value === false) {
-                    countup = value;
-                }
+                if (value === true || value === false) {countup = value;}
             },
             setTime: function(minutes, seconds){
                 minutesLeft = minutes;
                 secondsLeft = seconds;
                 updateDisplay();
             },
-            getTotalSeconds: function(){
-                return totalSeconds;
-            },
-            getId: function(){
-                return id;
-            },
+            getTotalSeconds: function(){return totalSeconds;},
+            getId: function(){return id;},
             isRunning: function(){return running}
         }
     }();
@@ -165,27 +147,13 @@ var timerManager = function(){
     }
 
     return {
-        addTimer: function(timer){//add timer to list
-            timerList.push(timer);
-        },
-        updateTimers: function(){//run update on all the timers
-            update();
-        },
-        startTimers(){
-            start();
-        },
-        slowTimers: function(){
-            slow();
-        },
-        stopTimers(){
-            stop();
-        },
-        resetTimers: function() {
-            reset();
-        },
-        setTimers: function(time){
-            set(time);
-        },
+        addTimer: function(timer){timerList.push(timer);},
+        updateTimers: function(){update();},
+        startTimers(){start();},
+        slowTimers: function(){slow();},
+        stopTimers(){stop();},
+        resetTimers: function() {reset();},
+        setTimers: function(time){set(time);},
         setCountUp: function(value){
             for (var i = 0; i < timerList.length; i++) {
                 timerList[i].setCountUp(value);
@@ -198,23 +166,16 @@ var timerManager = function(){
                         timerList[i].stop();
                     } else {
                         timerList[i].start();
-                    }
+                    }//close else
+                }//close if
+            }//close for
+        },//close function
+        getId(id){
+            for (var i = 0; i < timerList.length; i++) {
+                if (timerList[i].getId() === id) {
+                    return timerList[i];
                 }
             }
         }
     }
 }();
-
-//******************UTILITYS*****************************
-var cleanUpNumber = function(number){   //cleans up number for disply. returns String
-    if(typeof number === "number"){number = number.toString();} //if number entered make string
-    if(typeof number === "string"){//if it is a string
-        if(number.length < 2){  //that is only one letter long
-            number = "0" + number;  //add a 0 to that string.
-        }
-    }
-    else{
-        console.log("ERROR: Type ("+ typeof number +") not supported");
-    }
-    return number;
-}

@@ -32,16 +32,18 @@
                     </div>
                 </section>
                 <!--<a id="settings" href="settings.html">Settings</a> -->
-                <p id='logHeader' onclick="newLog.loadTable()">Show log</p>
-                <section id="Log">
-                    <div id="tableDiv">
-                        <p id="Date">Log starts from: DD/MM/YYYY</p>
-                        <table id="logTable"><tbody></tbody></table>
-                    </div>
-                </section>
-                <a id="logDownload" onclick="newLog.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
-                <p>Class: </p>
-                <a href="TODO add class function">Add Class</a>
+                <a class="sideButton" id="logDownload" onclick="log.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
+                <div class="classSelectDiv">
+                    <p>Class: </p>
+                    <select id="classSelect" onChange="log.loadClassFromList(this);">
+                        <option value="Tanya">Tanya</option>
+                        <option value="other">other</option>
+                    </select>
+                </div>
+                <a class="sideButton" onclick="log.addClass()">Add Class</a>
+                <a class="sideButton" onclick="log.addStudent()">Add Student</a>
+                <a class="sideButton" onclick="log.removeClass()">Remove Class</a>
+                <a class="sideButton" onclick="log.removeStudent()">Remove Student</a>
                 <div class="clearfix"></div>
             </section>
             <section id="timerBox">
@@ -61,13 +63,12 @@
         </div> <!-- End of wrapper -->
         <div class="clearfix"></div>
         <footer>
-            Version 1.3.8<br>
-            PCGeekBrain
+            Version 1.6.2<br>
+            <a href="https://www.pcgeekbrain.com/">PCGeekBrain</a>
         </footer>
 
-        <script src="js/newlog.js"></script>
-        <script src="js/newtimer.js"></script>
         <script src="js/timer.js"></script>
+        <script src="js/log.js"></script>
         <script src="js/app.js"></script>
     </body>
 </html>
