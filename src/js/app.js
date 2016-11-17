@@ -1,8 +1,11 @@
 var app = function(){//everything in here I repeat everything will run on launch. It is bloated enough I know.
     //some vars for now
     var currentClass, classList = [], //list of classes
+        firstRun = true;
         studentTimers = document.getElementById('studentTimersList'),
         classListDropdown = document.getElementById('classSelect');
+/**********************************INIT**********************************************/
+
 /*********************************TIMER**********************************************/
     function simpleTimer(name, pointer, buttonPointer){//TODO make button change when paused
         var id = name,  //the ID of the timer
@@ -84,7 +87,7 @@ var app = function(){//everything in here I repeat everything will run on launch
                     timerList[i].update();  //update it
                     if (timerList[i].getId() === "master" && timerList[i].isRunning() === false) {stop = true;}//if the master is done then stop all timers after this update
                 }
-            } else {console.error("timerManager.update() run without running being true.");}//something is up ifthis runs. notify
+            } else {console.warn("timerManager.update() run without running being true.");}//something is up ifthis runs. notify
             if(stop){stop()};//takes care of error where students are left with 00:01 becuase master is called first
         };
         var start = function(){
@@ -138,7 +141,7 @@ var app = function(){//everything in here I repeat everything will run on launch
     var log = function(){
         var classJSON = {students:["master"]};//just in case we will set it to a default
             errorTime = "00:00:00",//default if error occurs
-            today = new Date().toDateString;//get the date for the logging
+            today = new Date().toDateString();//get the date for the logging
         if (localStorage.getItem('classList') !== null) {
             classList = JSON.parse(localStorage.getItem('classList'));
         }
@@ -146,21 +149,23 @@ var app = function(){//everything in here I repeat everything will run on launch
         var addClass = function(){
             var className = prompt("Please enter the name of the class you would like to add.");
             if (className === null || className === "") {
-                console.error("Not valid class name entered. recived null or blank string.");
+                console.warn("Not valid class name entered. recived null or blank string.");
                 className = "Default";
             }
-            if (classList.indexOf(className) != -1) {//if we already have the class
-                console.error("Can not add: Class already Exists"); return;//throw error and leave function if we already have the class
-            }
+            if (classList.indexOf(className) !== -1) {console.warn("Can not add: Class already Exists"); return;}//throw error and leave function if we already have the class
+            console.log("adding class");
             classList.push(className);//add it to the list of classes
             var classJSON = {students:["master"]};//generate the baisc JSON
             localStorage.setItem(className, JSON.stringify(classJSON));//store it away
             updateClassDropdown();
+            console.log("class Added, className = " + className);
+            return className;
         };
         var loadClass = function(className){
+            console.log("Loadclass: className = " + className);
             logToDrive();//save the last class.
             //now open class
-            if (classList.indexOf(className) === -1) {console.error("loadClass: No Such Class");return;};//if class is not in list, throw a fit and run to the administrator
+            if (classList.indexOf(className) === -1) {console.warn("loadClass: No Such Class");return;};//if class is not in list, throw a fit and run to the administrator
             currentClass = className;   //set the current class to that name
             classJSON = JSON.parse(localStorage.getItem(className));
             studentTimers.innerHTML = "";   //someone on stackoverflow said this will not prevoke russian nuclear retaliation. I'm trusting him.
@@ -194,18 +199,30 @@ var app = function(){//everything in here I repeat everything will run on launch
             studentTimersList.remove(studentTimer);
         };
         var logToDrive = function(){
+            console.log("LOG STARTS:");
             //class first
             students = classJSON['students']//makes life simple for now. Is TEMP
+            console.log(students);
             for (var i = 0; i < students.length; i++) {
-                var totalSeconds = timerManager.getId(students[i]).getTotalSeconds();
-                if (classJSON.hasOwnProperty(today) && classJSON[today][students[i]] !== undefined) {//if the day and student exist
+                var totalSeconds = timerManager.getByID(students[i]).getTotalSeconds();
+                console.log(totalSeconds);
+                console.log(classJSON);
+                if (!classJSON.hasOwnProperty(today)) {classJSON[today] = {};}
+                console.log(classJSON);
+                if (classJSON[today][students[i]] !== undefined) {//if the day and student exist
+                    console.log(classJSON.hasOwnProperty(today));
                     var oldTotalSeconds = parseTime(classJSON[today][students[i]]); //get the old time
                     totalSeconds = totalSeconds + oldTotalSeconds;  //ad add it to the time from now
+                    console.log(totalSeconds);
                 }
                 classJSON[today][students[i]] = formatTime(totalSeconds);
             }
+            localStorage.setItem(currentClass, JSON.stringify(classJSON));  //log the class to console
+            console.log(localStorage.getItem(currentClass));
             localStorage.setItem('currentClass', currentClass); //store the current class for the next time the app is opened.
+            console.log(localStorage.getItem('currentClass'));
             localStorage.setItem('classList', classList);   //store the list of classes for the same reason.
+            console.log(localStorage.getItem('classList'));
         }
         var generateCSV= function(){
             var students = classJSON['students'];//get all the students
@@ -244,7 +261,7 @@ var app = function(){//everything in here I repeat everything will run on launch
     function cleanUpNumber(number){   //cleans up number for disply. returns String
         if(typeof number === "number"){number = number.toString();} //if number entered make string
         if(typeof number === "string"){if(number.length < 2){number = "0" + number;}}// add a 0 if too short
-        else{console.log("ERROR: Type ("+ typeof number +") not supported");}//throw error if that happens
+        else{console.warn("ERROR: Type ("+ typeof number +") not supported");}//throw error if that happens
         return number;//give back the number
     };
     function createTimer(studentName){
@@ -272,17 +289,46 @@ var app = function(){//everything in here I repeat everything will run on launch
             classListDropdown.appendChild(option);
         }
     };
+    function parseTime(timeString){
+        var seconds = 0;
+        if (typeof(timeString === 'string') && timeString.indexOf(":") > -1) {
+            var numbers = timeString.split(":");
+            if (numbers.length === 3) {
+                try {seconds = (parseInt(numbers[0])*3600) + (parseInt(numbers[1])*60) + parseInt(numbers[2])} //seconds = (hours * 3600) + (minutes * 60) + seconds
+                catch (e) {console.warn("parseTime not given spec (xx:xx:xx)");}
+            } else {console.warn("parseTime not given spec (xx:xx:xx)");}//end else
+        }//end if
+    };//end function
+    function formatTime(seconds){
+        if (isNaN(seconds)) {return "00:00:00"};//NaN is annoying so lets kick him out
+        var minutes = 0, hours = 0;//these are some things.
+        while (seconds >= 60) {//got a minute?
+            seconds -= 60;
+            minutes += 1;
+            if (minutes >= 60) {
+                minutes -= 60;
+                hours += 1;
+            }//end minutes if
+        }//partys over, no more minutes left.
+        return cleanUpNumber(hours) + ":" + cleanUpNumber(minutes) + ":" + cleanUpNumber(seconds);  //return hours:minutes:seconds
+    }
     function shutDown(){
         log.log();
         console.log("disk write complete");
     };
 
 /*'******************************Back to app**********************************************/
-    //test all the objects in the console
-    console.log(simpleTimer("test"));
-    console.log(timerManager);
+    //add master timer
     master = simpleTimer("master");
     timerManager.add(master);
+    //get the students and sidplay them
+    if (localStorage.getItem('classList') === null) {classList = []}
+    else {classList = JSON.parse(localStorage.getItem('classList'));}
+    if (localStorage.getItem('currentClass') === null) {currentClass = log.add();}
+    else {currentClass = localStorage.getItem('currentClass');}
+    //update class list
+    log.load(currentClass);
+    //public options
     return {
         start: function(){timerManager.start();},
         stop: function(){timerManager.stop();},
