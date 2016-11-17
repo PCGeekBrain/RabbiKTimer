@@ -1,3 +1,40 @@
+/*functional*/
+.clearfix{
+	clear: both;
+}
+
+/*Main style and main style groups*/
+body{
+	font-family: Century Gothic, Candara, sans-serif;
+}
+/*padding and margin reset*/
+body, header h1{
+	margin: 0;
+	padding: 0;
+}
+.wrapper, input[type="number"]{
+	background: #FAFAFA;
+}
+.wrapper{
+	width: 960px;
+	min-height: 600px;
+	margin: 10px auto;
+	padding: 10px;
+	box-shadow: 5px 5px 20px rgba(0,0,0,0.15);
+	padding-bottom: 15px;
+	border-radius: 15px;
+}
+
+/* The header */
+header{
+	padding: 15px;
+	text-align: center;
+	margin-bottom: 25px;
+	border-bottom: 5px double rgba(0,0,0,0.18);
+}
+header h1{
+	text-transform: capitalize;
+}
 
 /************************************************Left - Controls**********************************/
 #buttons{
@@ -93,6 +130,10 @@
 	text-transform: capitalize;
 }
 
+#studentTimer{
+
+}
+
 #studentTimers input[type="number"]{
 	height: 30px;
 	width: 45px;
@@ -121,8 +162,8 @@
 #right{
 	position: relative;
 	float: right;
-	width: 230px;
-	height: 440px;
+	width: 250px;
+	height: 480px;
 	padding: 10px;
 	margin-right: 10px;
 	text-align: center;
@@ -183,16 +224,30 @@
 .slideOne input[type=checkbox]:checked + label {
 	left: 25px;
 }
-/*slider*/
-.sideButton{
-	height: 30px;
-	width: 200px;
-	display: block;
-	margin: 10px auto;
-	text-decoration: none;
-	color: #000;
+/*slider end*/
+.classSelectDiv, .sideButton{
+    height: 30px;
+    width: 220px;
+    display: block;
+    margin: 10px auto;
+    color: #000;
 	font-size: 25px;
 	padding: 10px;
+}
+.classSelectDiv p{
+    display: inline-block;
+    margin: 0;
+    width: 35%;
+}
+#classSelect{
+    display: inline-block;
+    background-color: inherit;
+    border-radius: 3px;
+    width: 60%;
+    height: 90%;
+}
+.sideButton{
+	text-decoration: none;
 	border-radius: 5px;
 	box-shadow: 3px 5px 8px rgba(0,0,0,.3);
 	border: 1px solid #ddd;
@@ -207,4 +262,7 @@ footer, footer a{
 	text-align: center;
     text-decoration: none;
     color: #000;
+}
+footer{
+    font-size: .6em;
 }

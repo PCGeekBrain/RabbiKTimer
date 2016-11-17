@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Rabbi Kahanov's Timer</title>
-        <link rel="stylesheet" href="css/template.css"/>
+        <!-- TODO: put CSS in style tag for launch -->
         <link rel="stylesheet" href="css/home.css">
     </head>
 
@@ -13,13 +13,13 @@
                 <h1>Rabbi Kahanov's classroom timer</h1>
             </header>
             <section id="buttons">
-                <span class="button" id="start" onclick="timerManager.startTimers()">
+                <span class="button" id="start" onclick="app.start()">
                     <p>go</p>
                 </span>
-                <span class="button" id="slow" onclick="timerManager.resetTimers()">
+                <span class="button" id="slow" onclick="app.reset()">
                     <p id='slowtext'>reset</p>
                 </span>
-                <span class="button" id="stop" onclick="timerManager.stopTimers()">
+                <span class="button" id="stop" onclick="app.stop()">
                     <p>stop</p>
                 </span>
                 <div class="clearfix"></div>
@@ -27,23 +27,21 @@
             <section id="right">
                 <section id="AdvancedOptions">
                     <p>Count Up:</p><div class="slideOne">
-                      <input type="checkbox" value="None" id="slideOne" name="check" />
+                      <input type="checkbox" value="None" id="slideOne" name="check" onchange="app.countUp(this)" />
                       <label for="slideOne"></label>
                     </div>
                 </section>
                 <!--<a id="settings" href="settings.html">Settings</a> -->
-                <a class="sideButton" id="logDownload" onclick="log.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
                 <div class="classSelectDiv">
                     <p>Class: </p>
-                    <select id="classSelect" onChange="log.loadClassFromList(this);">
-                        <option value="Tanya">Tanya</option>
-                        <option value="other">other</option>
+                    <select id="classSelect" onChange="app.changeClass();">
                     </select>
                 </div>
-                <a class="sideButton" onclick="log.addClass()">Add Class</a>
-                <a class="sideButton" onclick="log.addStudent()">Add Student</a>
-                <a class="sideButton" onclick="log.removeClass()">Remove Class</a>
-                <a class="sideButton" onclick="log.removeStudent()">Remove Student</a>
+                <a class="sideButton" onclick="app.addClass()">Add Class</a>
+                <a class="sideButton" onclick="app.addStudent()">Add Student</a>
+                <a class="sideButton" onclick="app.removeClass()">Remove Class</a>
+                <a class="sideButton" onclick="app.removeStudent()">Remove Student</a>
+                <a class="sideButton" id="logDownload" onclick="app.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
                 <div class="clearfix"></div>
             </section>
             <section id="timerBox">
@@ -67,9 +65,7 @@
             <a href="https://www.pcgeekbrain.com/">PCGeekBrain</a>
         </footer>
 
-        <!--<script src="js/timer.js"></script>
-        <script src="js/log.js"></script>
-        <script src="js/app.js"></script>-->
-        <script src="js/finalapp.js"></script>
+        <!--TODO: put the js dirctly in the script tag-->
+        <script src="js/app.js"></script>
     </body>
 </html>
