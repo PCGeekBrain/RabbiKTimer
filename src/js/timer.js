@@ -6,7 +6,6 @@ var simpleTimer = function(name, pointer, textPointer){//added textPointer
     //when constructon (above) is called the code below executes and returns an object;
     return function (){
         var id = name,  //The id for the timer
-            timerInterval,  //Variable to store the actual countdown interval object
             running = false,
             countup = false,
             minutesLeft = 16,

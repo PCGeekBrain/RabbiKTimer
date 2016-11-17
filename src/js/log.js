@@ -13,10 +13,14 @@ var log = function(){
 
     //functions
     function addClass(){
-        var className = prompt("Please enter class name", "Gemarah"),
-            classObj = {
-                students:["master"]
-            };
+        if(arguments[0] === null){
+            var className = arguments[0];
+        } else {
+            var className = prompt("Please enter class name", "Gemarah");
+        }
+        var classObj = {
+            students:["master"]
+        };
         if (localStorage.getItem(className) === null) {
             localStorage.setItem(className, JSON.stringify(classObj));
         } else {
