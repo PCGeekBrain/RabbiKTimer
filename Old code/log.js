@@ -40,7 +40,7 @@ var log = function(){
                     var totalSeconds = timerManager.getId(students[i]).getTotalSeconds();   //get the total seconds for the student
                     if (classJson.hasOwnProperty(today)){//if today exists (already logged)
                         var oldTotalSeconds = parseTime(classJson[today][students[i]]); //get what was logged before
-                        var totalSeconds = totalSeconds + oldTotalSeconds;  //add it up
+                        totalSeconds = totalSeconds + oldTotalSeconds;  //add it up
                     }
                     classJson[today][students[i]] = formatTime(totalSeconds);   //write the total to the JSON
                 } else {

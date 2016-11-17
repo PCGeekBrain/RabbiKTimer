@@ -169,7 +169,7 @@ var app = function(){//everything in here I repeat everything will run on launch
             }
         };
         var removeClass = function(){
-            var className = prompt("Enter the name of the class you would like to remove.\n\nWARNING: YOU CAN NOT REVERSE THIS");
+            var className = prompt("Enter the name of the class you would like to remove.\nNote: class cannot be open\nWARNING: YOU CAN NOT REVERSE THIS");
             if(className === null || className === ""){return;}//left it blak or cancelled. obviously changed their mind.
             if (className === currentClass) {alert("Please leave class before removing it"); return;}//can't remove current class
             if (classList.indexOf(className) === -1) {alert("Sorry, it seems we do not have a class by that name. Please try again."); return;} //we dont have it. notify user and leave.
@@ -178,17 +178,20 @@ var app = function(){//everything in here I repeat everything will run on launch
             updateClassDropdown();  //update the dropdown menu
             localStorage.removeItem(className); //remove the class from localStorage
         };
-        var addStudent(){
+        var addStudent = function(){
             var studentName = prompt("Please enter the name of the student you would like to add.");
             if (studentName === null || studentName === "") {return;};
-            if (classJSON('students').indexOf(studentName) !== -1){alert("This student already exists"); return;};//already have this student
+            if (classJSON['students'].indexOf(studentName) !== -1){alert("This student already exists"); return;};//already have this student
             classJSON['students'].push(studentName);
             createTimer(studentName);
         };
-        var removeStudent(){
-            var studentName = prompt("Please enter the name of the student you would like to remove.\n\nWARNING: YOU CAN NOT REVERSE THIS")
+        var removeStudent = function(){
+            var studentName = prompt("Please enter the name of the student you would like to remove.\nNote: class must be open to work\nWARNING: YOU CAN NOT REVERSE THIS")
             if (studentName === null || studentName === "") {return;}
-            if (classJSON('students').indexOf(studentName) === -1){alert("This student does not exist"); return;};//already have this student
+            if (classJSON['students'].indexOf(studentName) === -1){alert("This student does not exist"); return;};//already have this student
+            classJSON['students'].splice(classJSON['students'].indexOf(studentName), 1)
+            var studentTimer = document.getElementById('s' + studentName);
+            studentTimersList.remove(studentTimer);
         };
         var logToDrive = function(){
             //class first
@@ -204,15 +207,15 @@ var app = function(){//everything in here I repeat everything will run on launch
             localStorage.setItem('currentClass', currentClass); //store the current class for the next time the app is opened.
             localStorage.setItem('classList', classList);   //store the list of classes for the same reason.
         }
-        var generateCSV(){
+        var generateCSV= function(){
             var students = classJSON['students'];//get all the students
             var dates = Object.keys(classJSON); //get all the dates (keys)
             dates.splice(dates.indexOf('students'), 1); //remove students from that list
-            returnCSV = ',';//first cell is empty
-            for (var i = 0; i < students.length; i++) {returnCSV = returnCSV + students[i] + ",";};//add every student to the top row. Bad implamentation I know, want to fix it?
+            returnCSV = 'data:text/csv;charset=utf-8,';//first cell is empty
+            for (var i = 0; i < students.length; i++) {returnCSV = returnCSV + "," + students[i];};//add every student to the top row. Bad implamentation I know, want to fix it?
             returnCSV += "\n";//add a new line to csv file
             for (var i = 0; i < dates.length; i++) {//for every date on file
-                returnCSV = returnCSV dates[i] + ",";//add the date to collumn one
+                returnCSV = returnCSV + dates[i] + ",";//add the date to collumn one
                 for (var j = 0; j < students.length; j++) { //for every active student
                     if (classJSON[dates[i]][students[j]] === undefined) {   //see fi he has a log
                         returnCSV = returnCSV + errorTime + ",";  //if not thorw in the error string located at the top of this object
@@ -222,7 +225,7 @@ var app = function(){//everything in here I repeat everything will run on launch
                 }
                 returnCSV += "\n";  //add a new line for every day.
             }
-            return returnCSV;
+            return encodeURI(returnCSV);
         }
 
         //external functions
@@ -268,7 +271,11 @@ var app = function(){//everything in here I repeat everything will run on launch
             option.innerHTML = classList[i];
             classListDropdown.appendChild(option);
         }
-    }
+    };
+    function shutDown(){
+        log.log();
+        console.log("disk write complete");
+    };
 
 /*'******************************Back to app**********************************************/
     //test all the objects in the console
@@ -282,13 +289,13 @@ var app = function(){//everything in here I repeat everything will run on launch
         reset: function(){timerManager.reset()},
         setTime: function(){timerManager.set([parseInt(masterMinutes.value, 10), parseInt(masterSeconds.value, 10)])},
         countUp: function(input){timerManager.setCountUp(input.checked);},//TODO change to timerManager.setCountUp(input.checked);
-        downloadCSV: function(link){link.href = "data:text/csv; charset=utf-8", + encodeURIComponent(log.csv())},
+        downloadCSV: function(link){link.setAttribute('href', log.csv())},
         changeClass: function(){log.load(classListDropdown.value);},
         addClass: function(){log.add();},
         removeClass: function(){log.remove()},
         addStudent: function(){log.addStudent()},
         removeStudent: function(){log.removeStudent()},
-        onShutdown: function(){}
+        onShutdown: function(){shutDown();}
     }
 }();//end of app variable. runs whole application. locks everything except what is in the final return becuase js.
 
