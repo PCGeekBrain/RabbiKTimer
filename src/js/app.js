@@ -179,8 +179,8 @@ var app = function(){//everything in here I repeat everything will run on launch
             localStorage.removeItem(className); //remove the class from localStorage
         };
         var addStudent(){
-            var studentName = prompt("Please enter the name of the student you would like to add.")
-            if (studentName === null || studentName === "") {return;}
+            var studentName = prompt("Please enter the name of the student you would like to add.");
+            if (studentName === null || studentName === "") {return;};
             if (classJSON('students').indexOf(studentName) !== -1){alert("This student already exists"); return;};//already have this student
             classJSON['students'].push(studentName);
             createTimer(studentName);
@@ -203,6 +203,26 @@ var app = function(){//everything in here I repeat everything will run on launch
             }
             localStorage.setItem('currentClass', currentClass); //store the current class for the next time the app is opened.
             localStorage.setItem('classList', classList);   //store the list of classes for the same reason.
+        }
+        var generateCSV(){
+            var students = classJSON['students'];//get all the students
+            var dates = Object.keys(classJSON); //get all the dates (keys)
+            dates.splice(dates.indexOf('students'), 1); //remove students from that list
+            returnCSV = ',';//first cell is empty
+            for (var i = 0; i < students.length; i++) {returnCSV = returnCSV + students[i] + ",";};//add every student to the top row. Bad implamentation I know, want to fix it?
+            returnCSV += "\n";//add a new line to csv file
+            for (var i = 0; i < dates.length; i++) {//for every date on file
+                returnCSV = returnCSV dates[i] + ",";//add the date to collumn one
+                for (var j = 0; j < students.length; j++) { //for every active student
+                    if (classJSON[dates[i]][students[j]] === undefined) {   //see fi he has a log
+                        returnCSV = returnCSV + errorTime + ",";  //if not thorw in the error string located at the top of this object
+                    } else {
+                        returnCSV = returnCSV + classJSON[dates[i]][students[j]] + ",";   //we have him. so put in the time on file.
+                    }
+                }
+                returnCSV += "\n";  //add a new line for every day.
+            }
+            return returnCSV;
         }
 
         //external functions
