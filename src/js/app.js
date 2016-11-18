@@ -1,11 +1,9 @@
 var app = function(){//everything in here I repeat everything will run on launch. It is bloated enough I know.
-    //some vars for now
-    var currentClass, classList = [], //list of classes
+    /**********************************INIT**********************************************/
+    var currentClass,
         firstRun = true;
         studentTimers = document.getElementById('studentTimersList'),
         classListDropdown = document.getElementById('classSelect');
-/**********************************INIT**********************************************/
-
 /*********************************TIMER**********************************************/
     function simpleTimer(name, pointer, buttonPointer){//TODO make button change when paused
         var id = name,  //the ID of the timer
@@ -32,10 +30,12 @@ var app = function(){//everything in here I repeat everything will run on launch
                     } else {    //there are seconds to remove
                         seconds -= 1;   //take one
                     }
-                } else {    //we are assuming here that running and countup === true
+                } else if (countup){    //counting up
                     if (seconds === 59) {   //if we are going to minutes
                         seconds = 0;    //reset seconds
                         minutes += 1;   //add a minute
+                    } else {
+                        seconds += 1;
                     }
                 }//done with adjusting the internal time. now to the displaying of that data
                 updateDisplay();
@@ -56,15 +56,15 @@ var app = function(){//everything in here I repeat everything will run on launch
             }
         };
         var swapText = function(){
-            if (running) {buttonPointer.innerHTML = 'Start'; running = false}
-            else {buttonPointer.innerHTML = 'Stop'; running = true}
+            if (running) {buttonPointer.value = 'Start'; buttonPointer.className = "startStudentBtn"; running = false}
+            else {buttonPointer.value = 'Stop'; buttonPointer.className = "stopStudentBtn"; running = true}
         }
         //simpleTimer external (callable) functions
         return{
             start: function(){running = true;},    //start the timer
             stop: function(){running = false;},     //stop the timer
             update: function(){return update()},    //allow the timer to be updated (by timer manager please)
-            setCountUp: function(value){if (typeof(value) === 'boolean') {countup = value}},    //change the counting direction
+            setCountUp: function(value){if (typeof(value) === 'boolean') {countup = value; console.log("countup = " + value);}},    //change the counting direction
             setTime: function(min, sec){return setTime(min, sec)},  //change the time of said timer
             getTotalSeconds: function(){return totalSeconds},   //get the total seconds for logging
             getId: function(){return id},   //return the id to figure out what object this is
@@ -132,14 +132,19 @@ var app = function(){//everything in here I repeat everything will run on launch
             set: function(time){return set(time)},
             reset: function(){set([16,00])},
             add: function(timer){timerList.push(timer)},
-            setCountUp: function(value){for (var i = 0; i < timerList.length; i++) {timerList[i].setCountUp(value);}},//set all the timers countup value to this
+            setCountUp: function(value){
+                for (var i = 0; i < timerList.length; i++) {
+                    console.log(timerList[i]);
+                    timerList[i].setCountUp(value);
+                }
+            },//set all the timers countup value to this
             swapIdState: function(id){for (var i = 0; i < timerList.length; i++) {if(timerList[i].getId() === id) {timerList[i].swapText();}}},// run swap id on a timer
             getByID: function(id){for (var i = 0; i < timerList.length; i++) {if (timerList[i].getId() === id) {return timerList[i];}}} //pull a timer by its id
         };
     }();
 /***********************************LOG*******************************************/
     var log = function(){
-        var classJSON = {students:["master"]};//just in case we will set it to a default
+        var classJSON, //DO NOT SET HERE
             errorTime = "00:00:00",//default if error occurs
             today = new Date().toDateString();//get the date for the logging
         if (localStorage.getItem('classList') !== null) {
@@ -153,17 +158,16 @@ var app = function(){//everything in here I repeat everything will run on launch
                 className = "Default";
             }
             if (classList.indexOf(className) !== -1) {console.warn("Can not add: Class already Exists"); return;}//throw error and leave function if we already have the class
-            console.log("adding class");
             classList.push(className);//add it to the list of classes
-            var classJSON = {students:["master"]};//generate the baisc JSON
+            classJSON = {students:["master"]};//generate the baisc JSON
             localStorage.setItem(className, JSON.stringify(classJSON));//store it away
             updateClassDropdown();
-            console.log("class Added, className = " + className);
             return className;
         };
         var loadClass = function(className){
-            console.log("Loadclass: className = " + className);
-            logToDrive();//save the last class.
+            if (firstRun) {
+                firstRun = false;
+            } else{logToDrive();}//save the last class.
             //now open class
             if (classList.indexOf(className) === -1) {console.warn("loadClass: No Such Class");return;};//if class is not in list, throw a fit and run to the administrator
             currentClass = className;   //set the current class to that name
@@ -171,7 +175,8 @@ var app = function(){//everything in here I repeat everything will run on launch
             studentTimers.innerHTML = "";   //someone on stackoverflow said this will not prevoke russian nuclear retaliation. I'm trusting him.
             for (var i = 0; i < classJSON['students'].length; i++) {//for every studet, generate one
                 createTimer(classJSON['students'][i]);
-            }
+            } //update Class list
+            updateClassDropdown();
         };
         var removeClass = function(){
             var className = prompt("Enter the name of the class you would like to remove.\nNote: class cannot be open\nWARNING: YOU CAN NOT REVERSE THIS");
@@ -196,32 +201,29 @@ var app = function(){//everything in here I repeat everything will run on launch
             if (classJSON['students'].indexOf(studentName) === -1){alert("This student does not exist"); return;};//already have this student
             classJSON['students'].splice(classJSON['students'].indexOf(studentName), 1)
             var studentTimer = document.getElementById('s' + studentName);
-            studentTimersList.remove(studentTimer);
+            studentTimer.remove();
         };
         var logToDrive = function(){
-            console.log("LOG STARTS:");
             //class first
             students = classJSON['students']//makes life simple for now. Is TEMP
-            console.log(students);
             for (var i = 0; i < students.length; i++) {
                 var totalSeconds = timerManager.getByID(students[i]).getTotalSeconds();
-                console.log(totalSeconds);
-                console.log(classJSON);
                 if (!classJSON.hasOwnProperty(today)) {classJSON[today] = {};}
-                console.log(classJSON);
                 if (classJSON[today][students[i]] !== undefined) {//if the day and student exist
-                    console.log(classJSON.hasOwnProperty(today));
+                    console.log("Adding Seconds below:");
                     var oldTotalSeconds = parseTime(classJSON[today][students[i]]); //get the old time
+                    console.log(oldTotalSeconds);
                     totalSeconds = totalSeconds + oldTotalSeconds;  //ad add it to the time from now
                     console.log(totalSeconds);
                 }
                 classJSON[today][students[i]] = formatTime(totalSeconds);
             }
+            console.log("Logged:");
             localStorage.setItem(currentClass, JSON.stringify(classJSON));  //log the class to console
             console.log(localStorage.getItem(currentClass));
             localStorage.setItem('currentClass', currentClass); //store the current class for the next time the app is opened.
             console.log(localStorage.getItem('currentClass'));
-            localStorage.setItem('classList', classList);   //store the list of classes for the same reason.
+            localStorage.setItem('classList', JSON.stringify(classList));   //store the list of classes for the same reason.
             console.log(localStorage.getItem('classList'));
         }
         var generateCSV= function(){
@@ -272,8 +274,8 @@ var app = function(){//everything in here I repeat everything will run on launch
             button = document.createElement('input');
         li.setAttribute('id', 's'+studentName);
         tempName.innerHTML = studentName;   //assign the name to the name <p>
-        timer.innerHTML = "16:00";  //put the defualt time in the timer <p>
-        button.value = "Stop"; button.type = 'button';  //set the <button>'s propertys'
+        timer.innerHTML = "16:00"; timer.className = "studentTimer"  //put the defualt time in the timer <p>
+        button.value = "Stop"; button.type = 'button'; button.className = "stopStudentBtn";  //set the <button>'s propertys'
         button.onclick = function(){timerManager.swapIdState(studentName)}; //set <button>'s onclick
         li.appendChild(tempName); li.appendChild(timer); li.appendChild(button);    //add them all to the <li>
         studentTimers.appendChild(li);  //throw it in the <ul>
@@ -287,7 +289,8 @@ var app = function(){//everything in here I repeat everything will run on launch
             var option = document.createElement('option');
             option.innerHTML = classList[i];
             classListDropdown.appendChild(option);
-        }
+        };
+        classListDropdown.value = currentClass;
     };
     function parseTime(timeString){
         var seconds = 0;
@@ -298,6 +301,7 @@ var app = function(){//everything in here I repeat everything will run on launch
                 catch (e) {console.warn("parseTime not given spec (xx:xx:xx)");}
             } else {console.warn("parseTime not given spec (xx:xx:xx)");}//end else
         }//end if
+        return seconds;
     };//end function
     function formatTime(seconds){
         if (isNaN(seconds)) {return "00:00:00"};//NaN is annoying so lets kick him out
@@ -334,7 +338,7 @@ var app = function(){//everything in here I repeat everything will run on launch
         stop: function(){timerManager.stop();},
         reset: function(){timerManager.reset()},
         setTime: function(){timerManager.set([parseInt(masterMinutes.value, 10), parseInt(masterSeconds.value, 10)])},
-        countUp: function(input){timerManager.setCountUp(input.checked);},//TODO change to timerManager.setCountUp(input.checked);
+        countUp: function(input){timerManager.setCountUp(input.checked); console.log(input.checked);},//TODO change to timerManager.setCountUp(input.checked);
         downloadCSV: function(link){link.setAttribute('href', log.csv())},
         changeClass: function(){log.load(classListDropdown.value);},
         addClass: function(){log.add();},

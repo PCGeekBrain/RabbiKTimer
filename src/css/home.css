@@ -111,6 +111,7 @@ header h1{
 }
 
 #studentTimers ul li{
+    vertical-align: middle;
 	text-align: center;
 	width: 345px;
 	padding: 8px;
@@ -123,29 +124,27 @@ header h1{
 
 #studentTimers ul li p{
 	margin: 0;
-	margin-bottom: 3px;
+    height: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	border-bottom: dashed 1px rgba(0,0,0,.4);
 	text-transform: capitalize;
 }
 
-#studentTimer{
-
+.studentTimer{
+    height: 40px;
+    display: inline-block;
+    width: 30%;
+    vertical-align: middle;
+    padding: 5px;
 }
-
-#studentTimers input[type="number"]{
-	height: 30px;
-	width: 45px;
-	padding: 5px;
-	font-size: 25px;
-	border: none;
-	text-align: center;
-	-moz-appearance: textfield;
+.stopStudentBtn{
+    background: #FF9E9E;
 }
-
+.startStudentBtn{
+    background: #A6F5BE;
+}
 #studentTimers input[type="button"]{
-	background: #FF9E9E;
+    display: inline-block;
 	border: none;
 	border-radius: 50%;
 	height: 40px;
