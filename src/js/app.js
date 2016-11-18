@@ -196,17 +196,25 @@ var app = function(){//everything in here I repeat everything will run on launch
         var addStudent = function(){
             var studentName = prompt("Please enter the name of the student you would like to add.");
             if (studentName === null || studentName === "") {return;};
-            if (classJSON['students'].indexOf(studentName) !== -1){alert("This student already exists"); return;};//already have this student
-            classJSON['students'].push(studentName);
-            createTimer(studentName);
+            if (studentName.indexOf(";") > -1){var new_students = studentName.split(";");} //if multiple students given in. split it up.
+            else{var new_students = [studentName]};
+            for (var i = 0; i < new_students.length; i++) {
+                if (classJSON['students'].indexOf(new_students[i]) !== -1){alert("This student already exists: " + new_students[i]); continue;};//already have this student
+                classJSON['students'].push(new_students[i]);
+                createTimer(new_students[i]);
+            };
         };
         var removeStudent = function(){
             var studentName = prompt("Please enter the name of the student you would like to remove.\nNote: class must be open to work\nWARNING: YOU CAN NOT REVERSE THIS")
             if (studentName === null || studentName === "") {return;}
-            if (classJSON['students'].indexOf(studentName) === -1){alert("This student does not exist"); return;};//already have this student
-            classJSON['students'].splice(classJSON['students'].indexOf(studentName), 1)
-            var studentTimer = document.getElementById('s' + studentName);
-            studentTimer.remove();
+            if (studentName.indexOf(";") > -1){var removed_students = studentName.split(";");} //if multiple students given in. split it up.
+            else{var removed_students = [studentName]};
+            for (var i = 0; i < removed_students.length; i++) {
+                if (classJSON['students'].indexOf(removed_students[i]) === -1){alert("This student does not exist: " + removed_students[i]); continue;};//already have this student
+                classJSON['students'].splice(classJSON['students'].indexOf(removed_students[i]), 1)
+                var studentTimer = document.getElementById('s' + removed_students[i]);
+                studentTimer.remove();
+            }
         };
         var logToDrive = function(){
             //class first
