@@ -19,7 +19,7 @@ var app = function(){//everything in here I repeat everything will run on launch
         //simpleTimer internal functons
         var update = function(){
             if (running) {  //if the timer is running
-                if (minutes <= 0 && secondsLeft <=0) {  //if we are out of time
+                if (minutes <= 0 && seconds <=0) {  //if we are out of time
                     running = false //stop timer
                     return; //quit update function
                 }
@@ -61,10 +61,10 @@ var app = function(){//everything in here I repeat everything will run on launch
         }
         //simpleTimer external (callable) functions
         return{
-            start: function(){running = true;},    //start the timer
-            stop: function(){running = false;},     //stop the timer
+            start: function(){if(!running){running = true;}},    //start the timer
+            stop: function(){if(running){running = false;}},     //stop the timer
             update: function(){return update()},    //allow the timer to be updated (by timer manager please)
-            setCountUp: function(value){if (typeof(value) === 'boolean') {countup = value; console.log("countup = " + value);}},    //change the counting direction
+            setCountUp: function(value){if (typeof(value) === 'boolean') {countup = value;}},    //change the counting direction
             setTime: function(min, sec){return setTime(min, sec)},  //change the time of said timer
             getTotalSeconds: function(){return totalSeconds},   //get the total seconds for logging
             getId: function(){return id},   //return the id to figure out what object this is
@@ -81,14 +81,14 @@ var app = function(){//everything in here I repeat everything will run on launch
 		    slowtext = document.getElementById("slowtext");
         //internal functions
         var update = function(){
-            var stop = false;
+            var stopAll = false;
             if (running) {  //if we are running
                 for (var i = 0; i < timerList.length; i++) {//get every timer
                     timerList[i].update();  //update it
-                    if (timerList[i].getId() === "master" && timerList[i].isRunning() === false) {stop = true;}//if the master is done then stop all timers after this update
+                    if (timerList[i].getId() === "master" && timerList[i].isRunning() === false) {stopAll = true; sound(1);}//if the master is done then stop all timers after this update
                 }
             } else {console.warn("timerManager.update() run without running being true.");}//something is up ifthis runs. notify
-            if(stop){stop()};//takes care of error where students are left with 00:01 becuase master is called first
+            if(stopAll){stop()};//takes care of error where students are left with 00:01 becuase master is called first
         };
         var start = function(){
             if (!running) {
@@ -104,6 +104,7 @@ var app = function(){//everything in here I repeat everything will run on launch
                 clearInterval(timerInterval);
                 running = false;
                 slowbox.onclick = timerManager.reset; slowtext.innerHTML = "Reset" //show the user that they can slow the timer down
+                sound(0);
             }
         };
         var slow = function(){
@@ -123,6 +124,11 @@ var app = function(){//everything in here I repeat everything will run on launch
                 for (var i = 0; i < timerList.length; i++) {timerList[i].setTime(time[0], time[1]);} //set every timer to these two numbers
             }
         }
+        var sound = function(mode){
+            if (mode === 1) {var audio = new Audio('audio/end.mp3');}   //mode = 1 play end.mp3
+            else {var audio = new Audio('audio/stop.mp3');}             //mode !=1 play stop.mp3
+            audio.play();
+        }
         //external functions
         return {
             update: function(){return update();},
@@ -134,7 +140,6 @@ var app = function(){//everything in here I repeat everything will run on launch
             add: function(timer){timerList.push(timer)},
             setCountUp: function(value){
                 for (var i = 0; i < timerList.length; i++) {
-                    console.log(timerList[i]);
                     timerList[i].setCountUp(value);
                 }
             },//set all the timers countup value to this
@@ -210,21 +215,14 @@ var app = function(){//everything in here I repeat everything will run on launch
                 var totalSeconds = timerManager.getByID(students[i]).getTotalSeconds();
                 if (!classJSON.hasOwnProperty(today)) {classJSON[today] = {};}
                 if (classJSON[today][students[i]] !== undefined) {//if the day and student exist
-                    console.log("Adding Seconds below:");
                     var oldTotalSeconds = parseTime(classJSON[today][students[i]]); //get the old time
-                    console.log(oldTotalSeconds);
                     totalSeconds = totalSeconds + oldTotalSeconds;  //ad add it to the time from now
-                    console.log(totalSeconds);
                 }
                 classJSON[today][students[i]] = formatTime(totalSeconds);
             }
-            console.log("Logged:");
             localStorage.setItem(currentClass, JSON.stringify(classJSON));  //log the class to console
-            console.log(localStorage.getItem(currentClass));
             localStorage.setItem('currentClass', currentClass); //store the current class for the next time the app is opened.
-            console.log(localStorage.getItem('currentClass'));
             localStorage.setItem('classList', JSON.stringify(classList));   //store the list of classes for the same reason.
-            console.log(localStorage.getItem('classList'));
         }
         var generateCSV= function(){
             var students = classJSON['students'];//get all the students
@@ -338,7 +336,7 @@ var app = function(){//everything in here I repeat everything will run on launch
         stop: function(){timerManager.stop();},
         reset: function(){timerManager.reset()},
         setTime: function(){timerManager.set([parseInt(masterMinutes.value, 10), parseInt(masterSeconds.value, 10)])},
-        countUp: function(input){timerManager.setCountUp(input.checked); console.log(input.checked);},//TODO change to timerManager.setCountUp(input.checked);
+        countUp: function(input){timerManager.setCountUp(input.checked);},//TODO change to timerManager.setCountUp(input.checked);
         downloadCSV: function(link){link.setAttribute('href', log.csv())},
         changeClass: function(){log.load(classListDropdown.value);},
         addClass: function(){log.add();},
