@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Rabbi Kahanov's Timer</title>
+        <style>
+.clearfix{clear:both}body{font-family:Century Gothic,Candara,sans-serif}body,header h1{margin:0;padding:0}.wrapper,input[type=number]{background:#FAFAFA}.wrapper{width:960px;min-height:600px;margin:10px auto;padding:10px 10px 15px;box-shadow:5px 5px 20px rgba(0,0,0,.15);border-radius:15px}header{padding:15px;text-align:center;margin-bottom:25px;border-bottom:5px double rgba(0,0,0,.18)}header h1{text-transform:capitalize}#buttons{width:160px;padding:10px;margin-left:10px;background:#D6D6D6;border:1px solid #CCC;border-radius:10px;box-shadow:2px 2px 12px rgba(114,114,114,.3);float:left}.button{display:table;width:120px;height:120px;border:3px solid #C7C7C7;border-radius:50%;margin:15px;box-shadow:inset 5px 3px 5px rgba(0,0,0,.1);text-transform:uppercase;font-size:30px}.button:hover{cursor:pointer;box-shadow:inset 8px 5px 15px rgba(0,0,0,.21);font-size:33px}.button p{padding:5px;display:table-cell;vertical-align:middle;text-align:center}#AdvancedOptions,#AdvancedOptions p,.slideOne,.studentTimer{display:inline-block}#start{background:#A6F5BE}#slow{background:#EDFAAA}#stop,.stopStudentBtn{background:#FF9E9E}#timerBox{width:465px;margin:80px auto 0;padding:10px;overflow:hidden}#masterTimer{font-size:150px}#masterTimer input[type=number]{height:175px;width:175px;padding:5px;font-size:125px;border:none;text-align:center;-moz-appearance:textfield}#studentTimers{font-size:25px;margin:0 auto}#studentTimers ul{list-style:none;padding:0}#studentTimers ul li{vertical-align:middle;text-align:center;width:345px;padding:8px 10px 8px 8px;margin:8px auto;border:1px solid rgba(0,0,0,.1);border-radius:3px;box-shadow:4px 3px 9px rgba(0,0,0,.15)}#studentTimers ul li p{margin:0;height:100%;overflow:hidden;text-overflow:ellipsis;text-transform:capitalize}.studentTimer{height:40px;width:30%;vertical-align:middle;padding:5px}.startStudentBtn{background:#A6F5BE}#studentTimers input[type=button]{display:inline-block;border-radius:50%;height:40px;width:40px;text-align:center;border:1px solid #C7C7C7;box-shadow:inset 5px 3px 5px rgba(0,0,0,.1)}#studentTimers input[type=button]:hover{box-shadow:inset 5px 3px 5px rgba(0,0,0,.25)}#right{position:relative;float:right;width:250px;height:480px;padding:10px;margin-right:10px;text-align:center;background:#F9F9F9;border-radius:10px;box-shadow:2px 2px 12px rgba(114,114,114,.3)}#AdvancedOptions{padding:10px;height:50px;width:200px;margin:15px auto 0;font-size:25px}#AdvancedOptions p{margin-top:10px;vertical-align:top;clear:both}.slideOne{width:40px;height:10px;background:#333;margin:20px 15px;position:relative;border-radius:50px;box-shadow:inset 0 1px 1px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.2)}.slideOne label{display:block;width:22px;height:22px;position:absolute;top:-6px;left:-5px;cursor:pointer;background:#E5E8DC;background:-webkit-linear-gradient(top,#E5E8DC 0,#D5D6D0 40%,#b3bead 100%);background:linear-gradient(to bottom,#E5E8DC 0,#D5D6D0 40%,#b3bead 100%);border-radius:50%;box-shadow:0 2px 5px 0 rgba(0,0,0,.3);-webkit-transition:all .4s ease;transition:all .4s ease}.slideOne input[type=checkbox]{visibility:hidden}.slideOne input[type=checkbox]:checked+label{left:25px}.classSelectDiv,.sideButton{height:30px;width:220px;display:block;margin:10px auto;color:#000;font-size:25px;padding:10px}.classSelectDiv p{display:inline-block;margin:0;width:35%}#classSelect{display:inline-block;background-color:inherit;border-radius:3px;width:60%;height:90%}.sideButton{text-decoration:none;border-radius:5px;box-shadow:3px 5px 8px rgba(0,0,0,.3);border:1px solid #ddd}.sideButton:hover{cursor:pointer;font-size:24px;box-shadow:1px 2px 4px rgba(0,0,0,.4)}footer,footer a{text-align:center;text-decoration:none;color:#000}footer{font-size:.6em}
+        </style>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>Rabbi Kahanov's classroom timer</h1>
+            </header>
+            <section id="buttons">
+                <span class="button" id="start" onclick="app.start()">
+                    <p>go</p>
+                </span>
+                <span class="button" id="slow" onclick="app.reset()">
+                    <p id='slowtext'>reset</p>
+                </span>
+                <span class="button" id="stop" onclick="app.stop()">
+                    <p>stop</p>
+                </span>
+                <div class="clearfix"></div>
+            </section>
+            <section id="right">
+                <section id="AdvancedOptions">
+                    <p>Count Up:</p><div class="slideOne">
+                      <input type="checkbox" value="None" id="slideOne" name="check" onchange="app.countUp(this)" />
+                      <label for="slideOne"></label>
+                    </div>
+                </section>
+                <!--<a id="settings" href="settings.html">Settings</a> -->
+                <div class="classSelectDiv">
+                    <p>Class: </p>
+                    <select id="classSelect" onChange="app.changeClass();">
+                    </select>
+                </div>
+                <a class="sideButton" onclick="app.addClass()">Add Class</a>
+                <a class="sideButton" onclick="app.addStudent()">Add Student</a>
+                <a class="sideButton" onclick="app.removeClass()">Remove Class</a>
+                <a class="sideButton" onclick="app.removeStudent()">Remove Student</a>
+                <a class="sideButton" id="logDownload" onclick="app.downloadCSV(this)" download="ClassTimer.csv">Download Log</a>
+                <div class="clearfix"></div>
+            </section>
+            <section id="timerBox">
+                <div id="masterTimer">
+                    <input id="minutes" type ="number" min="0" max="59" value="16" oninput="app.setTime()">:
+                    <input id="seconds" type ="number" min="0" max="59" value="00" oninput="app.setTime()">
+                </div>
+                <div id="studentTimers">
+                    <!--Student timers inserted here in js-->
+                    <ul id="studentTimersList">
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+            </section>
+
+        </div> <!-- End of wrapper -->
+        <div class="clearfix"></div>
+        <footer>
+            Version 1.6.2<br>
+            <a href="https://www.pcgeekbrain.com/">PCGeekBrain</a>
+        </footer>
+
+        <!--TODO: put the js dirctly in the script tag-->
+        <script>
+var app=function(){function t(t,n,s){var r=t,o=!1,a=!1,u=16,i=0,l=0;"master"===r&&(masterMinutes=document.getElementById("minutes"),masterSeconds=document.getElementById("seconds"));var c=function(){if(o){if(0>=u&&0>=i)return void(o=!1);a?a&&(59===i?(i=0,u+=1):i+=1):0===i?(i=59,u-=1):i-=1,f(),l+=1}},d=function(t,e){u=t,i=e,f()},f=function(){"master"===r?(masterMinutes.value=e(u),masterSeconds.value=e(i)):n.innerHTML=e(u)+":"+e(i)},m=function(){o?(s.value="Start",s.className="startStudentBtn",o=!1):(s.value="Stop",s.className="stopStudentBtn",o=!0)};return{start:function(){o||(o=!0)},stop:function(){o&&(o=!1)},update:function(){return c()},setCountUp:function(t){"boolean"==typeof t&&(a=t)},setTime:function(t,e){return d(t,e)},getTotalSeconds:function(){return l},getId:function(){return r},isRunning:function(){return o},swapText:function(){return m()}}}function e(t){return"number"==typeof t&&(t=t.toString()),"string"==typeof t?t.length<2&&(t="0"+t):console.warn("ERROR: Type ("+typeof t+") not supported"),t}function n(e){if("master"!==e){var n=document.createElement("li"),s=document.createElement("p"),r=document.createElement("p"),o=document.createElement("input");n.setAttribute("id","s"+e),s.innerHTML=e,r.innerHTML="16:00",r.className="studentTimer",o.value="Stop",o.type="button",o.className="stopStudentBtn",o.onclick=function(){l.swapIdState(e)},n.appendChild(s),n.appendChild(r),n.appendChild(o),studentTimers.appendChild(n),tempTimer=t(e,r,o),l.add(tempTimer)}}function s(){for(var t=classListDropdown.options.length-1;t>=0;t--)classListDropdown.remove(t);for(var t=0;t<classList.length;t++){var e=document.createElement("option");e.innerHTML=classList[t],classListDropdown.appendChild(e)}classListDropdown.value=u}function r(t){var e=0;if(t.indexOf(":")>-1){var n=t.split(":");if(3===n.length)try{e=3600*parseInt(n[0])+60*parseInt(n[1])+parseInt(n[2])}catch(s){console.warn("parseTime not given spec (xx:xx:xx)")}else console.warn("parseTime not given spec (xx:xx:xx)")}return e}function o(t){if(isNaN(t))return"00:00:00";for(var n=0,s=0;t>=60;)t-=60,n+=1,n>=60&&(n-=60,s+=1);return e(s)+":"+e(n)+":"+e(t)}function a(){c.log(),console.log("disk write complete")}var u,i=!0;studentTimers=document.getElementById("studentTimersList"),classListDropdown=document.getElementById("classSelect");var l=function(){var t,e=[],n=!1,s=!1,r=document.getElementById("slow"),o=document.getElementById("slowtext"),a=function(){var t=!1;if(s)for(var n=0;n<e.length;n++)e[n].update(),"master"===e[n].getId()&&e[n].isRunning()===!1&&(t=!0,f(1));else console.warn("timerManager.update() run without running being true.");t&&i()},u=function(){if(!s){for(var n=0;n<e.length;n++)e[n].start();t=setInterval(a,1e3),s=!0,r.onclick=c,o.innerHTML="Slow"}},i=function(){if(s){for(var n=0;n<e.length;n++)e[n].stop();clearInterval(t),s=!1,r.onclick=l.reset,o.innerHTML="Reset",f(0)}},c=function(){s&&(clearInterval(t),n?(t=setInterval(a,1e3),n=!1,o.innerHTML="Slow"):(t=setInterval(a,2e3),n=!0,o.innerHTML="Fast"))},d=function(t){if(0==s&&2===t.length)for(var n=0;n<e.length;n++)e[n].setTime(t[0],t[1])},f=function(t){if(1===t)var e=new Audio("audio/end.mp3");else var e=new Audio("audio/stop.mp3");e.play()};return{update:function(){return a()},start:function(){return u()},stop:function(){return i()},slow:function(){return c()},set:function(t){return d(t)},reset:function(){d([16,0])},add:function(t){e.push(t)},setCountUp:function(t){for(var n=0;n<e.length;n++)e[n].setCountUp(t)},swapIdState:function(t){for(var n=0;n<e.length;n++)e[n].getId()===t&&e[n].swapText()},getByID:function(t){for(var n=0;n<e.length;n++)if(e[n].getId()===t)return e[n]}}}(),c=function(){var t,e="00:00:00",a=(new Date).toDateString();null!==localStorage.getItem("classList")&&(classList=JSON.parse(localStorage.getItem("classList")));var c=function(){var e=prompt("Please enter the name of the class you would like to add.");return(null===e||""===e)&&(console.warn("Not valid class name entered. recived null or blank string."),e="Default"),-1!==classList.indexOf(e)?void console.warn("Can not add: Class already Exists"):(classList.push(e),t={students:["master"]},localStorage.setItem(e,JSON.stringify(t)),s(),e)},d=function(e){if(i?i=!1:v(),-1===classList.indexOf(e))return void console.warn("loadClass: No Such Class");u=e,t=JSON.parse(localStorage.getItem(e)),studentTimers.innerHTML="";for(var r=0;r<t.students.length;r++)n(t.students[r]);s()},f=function(){var t=prompt("Enter the name of the class you would like to remove.\nNote: class cannot be open\nWARNING: YOU CAN NOT REVERSE THIS");if(null!==t&&""!==t){if(t===u)return void alert("Please leave class before removing it");if(-1===classList.indexOf(t))return void alert("Sorry, it seems we do not have a class by that name. Please try again.");classList.splice(classList.indexOf(t),1),s(),localStorage.removeItem(t)}},m=function(){var e=prompt("Please enter the name of the student you would like to add.");if(null!==e&&""!==e){if(e.indexOf(";")>-1)var s=e.split(";");else var s=[e];for(var r=0;r<s.length;r++)-1===t.students.indexOf(s[r])?(t.students.push(s[r]),n(s[r])):alert("This student already exists: "+s[r])}},p=function(){var e=prompt("Please enter the name of the student you would like to remove.\nNote: class must be open to work\nWARNING: YOU CAN NOT REVERSE THIS");if(null!==e&&""!==e){if(e.indexOf(";")>-1)var n=e.split(";");else var n=[e];for(var s=0;s<n.length;s++)if(-1!==t.students.indexOf(n[s])){t.students.splice(t.students.indexOf(n[s]),1);var r=document.getElementById("s"+n[s]);r.remove()}else alert("This student does not exist: "+n[s])}},v=function(){students=t.students;for(var e=0;e<students.length;e++){var n=l.getByID(students[e]).getTotalSeconds();if(t.hasOwnProperty(a)||(t[a]={}),void 0!==t[a][students[e]]){var s=r(t[a][students[e]]);n+=s}t[a][students[e]]=o(n)}localStorage.setItem(u,JSON.stringify(t)),localStorage.setItem("currentClass",u),localStorage.setItem("classList",JSON.stringify(classList))},g=function(){var n=t.students,s=Object.keys(t);s.splice(s.indexOf("students"),1),returnCSV="data:text/csv;charset=utf-8,";for(var r=0;r<n.length;r++)returnCSV=returnCSV+","+n[r];returnCSV+="\n";for(var r=0;r<s.length;r++){returnCSV=returnCSV+s[r]+",";for(var o=0;o<n.length;o++)void 0===t[s[r]][n[o]]?returnCSV=returnCSV+e+",":returnCSV=returnCSV+t[s[r]][n[o]]+",";returnCSV+="\n"}return encodeURI(returnCSV)};return{add:function(){return c()},load:function(t){d(t)},remove:function(t){f()},addStudent:function(t){m()},removeStudent:function(t){p()},csv:function(){return g()},log:function(){v()}}}();return master=t("master"),l.add(master),null===localStorage.getItem("classList")?classList=[]:classList=JSON.parse(localStorage.getItem("classList")),u=null===localStorage.getItem("currentClass")?c.add():localStorage.getItem("currentClass"),c.load(u),{start:function(){l.start()},stop:function(){l.stop()},reset:function(){l.reset()},setTime:function(){l.set([parseInt(masterMinutes.value,10),parseInt(masterSeconds.value,10)])},countUp:function(t){l.setCountUp(t.checked)},downloadCSV:function(t){t.setAttribute("href",c.csv())},changeClass:function(){c.load(classListDropdown.value)},addClass:function(){c.add()},removeClass:function(){c.remove()},addStudent:function(){c.addStudent()},removeStudent:function(){c.removeStudent()},onShutdown:function(){a()}}}();window.onbeforeunload=function(){app.onShutdown()};
+        </script>
+    </body>
+</html>
